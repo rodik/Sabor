@@ -1,6 +1,3 @@
-# load libs
-library(RSelenium)
-library(tibble)
 
 # start Selenium server
 startServer() #>java -jar selenium-server-standalone.jar // C:\Users\Administrator\Desktop\RSelenium

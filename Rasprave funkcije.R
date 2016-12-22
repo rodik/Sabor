@@ -81,3 +81,73 @@ readSveDostupneRasprave <- function(remDr) {
     
     as_data_frame(rasprave) # convert to tibble
 }
+
+readRaspravaTranskript <- function(remDr, url) {
+    
+    # navigate to page
+    remDr$navigate(rUrl)
+    
+    # navigate to page
+    remDr$navigate(rUrl)
+    
+    # get all text containers
+    text_rows <- remDr$findElements(using = "css selector", value = ".singleContentContainer+ .singleContentContainer")
+    
+    for (row in text_rows) {
+        
+        if (!exists("transcript_rows")) 
+            transcript_rows <- readTranskriptRow(row)
+        else
+            transcript_rows <- rbind(transcript_rows, readTranskriptRow(row))
+    }
+    
+    as_data_frame(transcript_rows)
+}
+
+readTranskriptRow <- function(row) {
+    # get speaker data
+    speaker_node <- row$findChildElement(using = "tag name", value = "h2")
+    speaker <- speaker_node$getElementText()
+    speaker <- unlist(speaker)
+    speaker <- gsub("[\r\n]", " ", speaker) # remove newline chars
+    
+    # get transcript data
+    transcript_node <- row$findChildElement(using = "tag name", value = "dd")
+    transcript <- transcript_node$getElementText()
+    transcript <- unlist(transcript)
+    transcript <- gsub("[\r\n]", " ", transcript)
+    
+    # return as df
+    data.frame(speaker, transcript, stringsAsFactors = FALSE)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

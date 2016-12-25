@@ -85,10 +85,10 @@ readSveDostupneRasprave <- function(remDr) {
 readRaspravaTranskript <- function(remDr, url) {
     
     # navigate to page
-    remDr$navigate(rUrl)
+    remDr$navigate(url)
     
-    # navigate to page
-    remDr$navigate(rUrl)
+    # get transcript_id from URL
+    ts_id = substr(url, unlist(gregexpr(pattern = "id=", text = url)) + 3, nchar(url))
     
     # get all text containers
     text_rows <- remDr$findElements(using = "css selector", value = ".singleContentContainer+ .singleContentContainer")
@@ -101,7 +101,20 @@ readRaspravaTranskript <- function(remDr, url) {
             transcript_rows <- rbind(transcript_rows, readTranskriptRow(row))
     }
     
-    as_data_frame(transcript_rows)
+    # convert to tibble
+    transcript_rows <- as_data_frame(transcript_rows)
+    
+    # add statement_id column
+    transcript_rows <- mutate(transcript_rows, statement_id = as.integer(rownames(transcript_rows)))
+    
+    # add transcript_id
+    transcript_rows$transcript_id = ts_id
+    
+    # report
+    print(ts_id)
+    
+    # return
+    transcript_rows
 }
 
 readTranskriptRow <- function(row) {

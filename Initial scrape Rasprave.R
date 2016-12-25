@@ -7,15 +7,14 @@ remDr <- remoteDriver(browser = "firefox", port=4444)
 remDr$open()
 
 # starting url
-url <- "http://edoc.sabor.hr/Fonogrami.aspx"
+home_url <- "http://edoc.sabor.hr/Fonogrami.aspx"
 
 # navigate page
-remDr$navigate(url)
+remDr$navigate(home_url)
 
 # start scraping
 rasprave <- readSveDostupneRasprave(remDr)
 
 # extract ID from URL
-rasprave$ID <- substr(rasprave$URL, unlist(gregexpr(pattern = "id=", text = rasprave$URL)) + 3, nchar(rasprave$URL))
+rasprave$ID <- as.integer(substr(rasprave$URL, unlist(gregexpr(pattern = "id=", text = rasprave$URL)) + 3, nchar(rasprave$URL)))
 
-rasprave

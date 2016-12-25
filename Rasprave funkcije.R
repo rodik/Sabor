@@ -19,7 +19,7 @@ readRaspravaRow <- function(r) {
         #     stranica <- remDr$findElements(using = "class", value = "dxp-current")
         # }
         
-        d$URL <- tdr_link
+        d$URL <- unlist(tdr_link)
         d$ImaSnimku <- unlist(cell_list)[6] == "Snimka rasprave"
         
         d

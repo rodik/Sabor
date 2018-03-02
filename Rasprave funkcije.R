@@ -79,6 +79,8 @@ readSveDostupneRasprave <- function(remDr) {
             break
     }
     
+    rasprave$ID <- as.integer(substr(rasprave$URL, unlist(gregexpr(pattern = "id=", text = rasprave$URL)) + 3, nchar(rasprave$URL)))
+    
     as_data_frame(rasprave) # convert to tibble
 }
 

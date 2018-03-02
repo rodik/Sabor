@@ -13,8 +13,14 @@ home_url <- "http://edoc.sabor.hr/Fonogrami.aspx"
 remDr$navigate(home_url)
 
 # start scraping
-rasprave <- readSveDostupneRasprave(remDr)
+rasprave8 <- readSveDostupneRasprave(remDr)
 
-# extract ID from URL
-rasprave$ID <- as.integer(substr(rasprave$URL, unlist(gregexpr(pattern = "id=", text = rasprave$URL)) + 3, nchar(rasprave$URL)))
+rasprave_final$Sjednica <- as.integer(rasprave_final$Sjednica)
+rasprave_final$RedniBroj <- as.integer(rasprave_final$RedniBroj)
+rasprave_final$ImaSnimku <- ifelse(rasprave_final$ImaSnimku == TRUE, 1, 0)
+
+# extract ID from URL # prebaceno u funkciju readSveDostupneRasprave
+# rasprave9$ID <- as.integer(substr(rasprave9$URL, unlist(gregexpr(pattern = "id=", text = rasprave9$URL)) + 3, nchar(rasprave9$URL)))
+
+head(rasprave_final)
 

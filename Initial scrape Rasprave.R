@@ -1,4 +1,4 @@
-
+library(RSelenium)
 # start Selenium server
 startServer() #>java -jar selenium-server-standalone.jar // C:\Users\Administrator\Desktop\RSelenium
 remDr <- remoteDriver(browser = "firefox", port=4444)
@@ -13,7 +13,7 @@ home_url <- "http://edoc.sabor.hr/Fonogrami.aspx"
 remDr$navigate(home_url)
 
 # start scraping
-rasprave8 <- readSveDostupneRasprave(remDr)
+rasprave_odd <- readSveDostupneRasprave(remDr)
 
 rasprave_final$Sjednica <- as.integer(rasprave_final$Sjednica)
 rasprave_final$RedniBroj <- as.integer(rasprave_final$RedniBroj)

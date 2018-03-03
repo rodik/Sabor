@@ -1,5 +1,6 @@
-# funkcije
+# funkcije za parsiranje rasprava
 
+# jedan redak iz tablice headera rasprava pretvara u data.frame row
 readRaspravaRow <- function(r) {
     # r <- rows_we[[8]]
     if (unlist(r$getElementAttribute("id")) != "ctl00_ContentPlaceHolder_gvFilters_DXDataRow0" ) {
@@ -26,15 +27,12 @@ readRaspravaRow <- function(r) {
     } 
 }
 
+# cita jednu stranicu
 readRasprave <- function(rows) {
-    if(exists("dat")) rm("dat")
+    dat <- data.frame()
     
     for (row in rows) {
-        
-        if (!exists("dat")) 
-            dat <- readRaspravaRow(row)
-        else
-            dat <- rbind(dat, readRaspravaRow(row))
+        dat <- rbind(dat, readRaspravaRow(row))
     }
     dat
 }
@@ -42,6 +40,7 @@ readRasprave <- function(rows) {
 
 # rm(dat)
 
+# cita sve headere rasprava od prve do zadnje dostupne stranice
 readSveDostupneRasprave <- function(remDr) {
     
     # get Next button
@@ -84,6 +83,7 @@ readSveDostupneRasprave <- function(remDr) {
     as_data_frame(rasprave) # convert to tibble
 }
 
+# cita kompletni transkript jedne rasprave
 readRaspravaTranskript <- function(remDr, url) {
     
     # navigate to page
@@ -95,12 +95,14 @@ readRaspravaTranskript <- function(remDr, url) {
     # get all text containers
     text_rows <- remDr$findElements(using = "css selector", value = ".singleContentContainer+ .singleContentContainer")
     
+    transcript_rows <- data.frame()
+    
     for (row in text_rows) {
-        
-        if (!exists("transcript_rows")) 
-            transcript_rows <- readTranskriptRow(row)
-        else
-            transcript_rows <- rbind(transcript_rows, readTranskriptRow(row))
+        transcript_rows <- rbind(transcript_rows, readTranskriptRow(row))
+        # if (!exists("transcript_rows")) 
+        #     transcript_rows <- readTranskriptRow(row)
+        # else
+        #     transcript_rows <- rbind(transcript_rows, readTranskriptRow(row))
     }
     
     # convert to tibble
@@ -119,6 +121,7 @@ readRaspravaTranskript <- function(remDr, url) {
     transcript_rows
 }
 
+# pretvara jedan redak (govor) transkripta u data.frame row
 readTranskriptRow <- function(row) {
     # get speaker data
     speaker_node <- row$findChildElement(using = "tag name", value = "h2")

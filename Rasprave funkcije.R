@@ -1,5 +1,7 @@
 # funkcije za parsiranje rasprava
 
+
+
 # jedan redak iz tablice headera rasprava pretvara u data.frame row
 readRaspravaRow <- function(r) {
     # r <- rows_we[[8]]
@@ -43,44 +45,63 @@ readRasprave <- function(rows) {
 # cita sve headere rasprava od prve do zadnje dostupne stranice
 readSveDostupneRasprave <- function(remDr) {
     
-    # get Next button
-    btnList <- remDr$findElements(using = "partial link text", value = "> >")
-    if (length(btnList) == 0) 
-        return(NA)
-    else
-        btnNext <- btnList[[1]]
+    # # get Next button
+    # btnList <- remDr$findElements(using = "partial link text", value = "> >")
+    # if (length(btnList) == 0) 
+    #     return(NA)
+    # else
+    #     btnNext <- btnList[[1]]
     
-    if(exists("rasprave")) rm("rasprave", envir = globalenv())
+    rasprave <- data.frame()
     
-    # until the last page is reached and the "Next" button is disabled
-    while (TRUE) {
-        
-        # get table rows containing data (using default table sort) returned as a list of web elements
-        rows_we <- remDr$findElements(using = "class", value = "dxgvDataRow_SaborPurpleTheme")    
-        # get data
-        if(!exists("rasprave")) 
-            rasprave <- readRasprave(rows_we)
-        else
-            rasprave <- rbind(rasprave, readRasprave(rows_we))
-        # click Next page
-        btnNext$clickElement()
-        # wait for reload
-        Sys.sleep(5)
-        # reload Next button status
-        btnList <- remDr$findElements(using = "partial link text", value = "> >")
-        if (length(btnList) == 0) 
-            break
-        else
-            btnNext <- btnList[[1]]
-        
-        # print ("#####################################################")
-        if (btnNext$getElementAttribute("class") == "dxp-button dxp-bt dxp-disabledButton") 
-            break
-    }
-    
-    rasprave$ID <- as.integer(substr(rasprave$URL, unlist(gregexpr(pattern = "id=", text = rasprave$URL)) + 3, nchar(rasprave$URL)))
-    
-    as_data_frame(rasprave) # convert to tibble
+    out <- tryCatch(
+        {
+            # until the last page is reached and the "Next" button is disabled
+            while (TRUE) {
+                
+                # get table rows containing data (using default table sort) returned as a list of web elements
+                rows_we <- remDr$findElements(using = "class", value = "dxgvDataRow_SaborPurpleTheme")    
+                # get data
+                rasprave <- rbind(rasprave, readRasprave(rows_we))
+                
+                # log current page
+                current_page <- remDr$findElement(using = 'css', value = '.dxp-current')
+                print(paste('Finished reading page:', current_page$getElementText()))
+                
+                
+                # reload Next button status
+                btnList <- remDr$findElements(using = "partial link text", value = "> >")
+                if (length(btnList) == 0) {
+                    break
+                }
+                else
+                    btnNext <- btnList[[1]]
+                
+                # click Next page
+                btnNext$clickElement()
+                # wait for reload
+                Sys.sleep(3)
+                
+                # # print ("#####################################################")
+                # if (btnNext$getElementAttribute("class") == "dxp-button dxp-bt dxp-disabledButton") 
+                #     break
+            }
+            return(as_data_frame(rasprave)) # convert to tibble
+        },
+        error=function(cond) {
+            message("Here's the original error message:")
+            message(cond)
+            # Choose a return value in case of error
+            return(as_data_frame(rasprave)) # convert to tibble
+        },
+        finally={
+            rasprave$ID <- as.integer(substr(rasprave$URL, unlist(gregexpr(pattern = "id=", text = rasprave$URL)) + 3, nchar(rasprave$URL)))
+            rasprave$Sjednica <- as.integer(rasprave$Sjednica)
+            rasprave$RedniBroj <- as.integer(rasprave$RedniBroj)
+            rasprave$ImaSnimku <- ifelse(rasprave$ImaSnimku == TRUE, 1, 0)
+        }
+    )    
+    return(out)
 }
 
 # cita kompletni transkript jedne rasprave
@@ -88,6 +109,9 @@ readRaspravaTranskript <- function(remDr, url) {
     
     # navigate to page
     remDr$navigate(url)
+    
+    # wait for reload
+    Sys.sleep(2)
     
     # get transcript_id from URL
     ts_id = substr(url, unlist(gregexpr(pattern = "id=", text = url)) + 3, nchar(url))
@@ -99,10 +123,6 @@ readRaspravaTranskript <- function(remDr, url) {
     
     for (row in text_rows) {
         transcript_rows <- rbind(transcript_rows, readTranskriptRow(row))
-        # if (!exists("transcript_rows")) 
-        #     transcript_rows <- readTranskriptRow(row)
-        # else
-        #     transcript_rows <- rbind(transcript_rows, readTranskriptRow(row))
     }
     
     # convert to tibble

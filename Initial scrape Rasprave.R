@@ -1,7 +1,7 @@
 library(RSelenium)
 # start Selenium server
-startServer() #>java -jar selenium-server-standalone.jar // C:\Users\Administrator\Desktop\RSelenium
-remDr <- remoteDriver(browser = "firefox", port=4444)
+# startServer() #>java -jar selenium-server-standalone.jar // C:\Users\Administrator\Desktop\RSelenium
+remDr <- remoteDriver(browser = "chrome", port=4444)
 
 # open browser
 remDr$open()
@@ -13,14 +13,20 @@ home_url <- "http://edoc.sabor.hr/Fonogrami.aspx"
 remDr$navigate(home_url)
 
 # start scraping
-rasprave_odd <- readSveDostupneRasprave(remDr)
+rasprave_8 <- readSveDostupneRasprave(remDr)
+rasprave_8_ostalo <- readSveDostupneRasprave(remDr)
 
-rasprave_final$Sjednica <- as.integer(rasprave_final$Sjednica)
-rasprave_final$RedniBroj <- as.integer(rasprave_final$RedniBroj)
-rasprave_final$ImaSnimku <- ifelse(rasprave_final$ImaSnimku == TRUE, 1, 0)
+rasprave_7_nastavak <- readSveDostupneRasprave(remDr)
 
-# extract ID from URL # prebaceno u funkciju readSveDostupneRasprave
-# rasprave9$ID <- as.integer(substr(rasprave9$URL, unlist(gregexpr(pattern = "id=", text = rasprave9$URL)) + 3, nchar(rasprave9$URL)))
+transkripti_8 <- data.frame()
+for (i in 1:nrow(rasprave_8)) {
+    r <- rasprave_8[i,]
+    transkripti_8 <- rbind(transkripti_8, readRaspravaTranskript(remDr, r$URL))
+    print(paste("Parsed", i, "of", nrow(rasprave_8), Sys.time())) 
+}
 
-head(rasprave_final)
 
+saveRDS(rasprave_8, "RDS files/saziv_8_headeri.rds")
+saveRDS(transkripti_8, "RDS files/saziv_8_transkripti.rds")
+
+transkripti_9 <- readRDS("RDS files/saziv_9_transkripti.rds")

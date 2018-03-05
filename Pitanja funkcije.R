@@ -24,14 +24,10 @@ readPitanjeRow <- function(r) {
 
 
 readPitanja <- function(rows) {
-    if(exists("dat")) rm("dat")
+    dat <- data.frame()
     
     for (row in rows) {
-        
-        if (!exists("dat")) 
-            dat <- readPitanjeRow(row)
-        else
-            dat <- rbind(dat, readPitanjeRow(row))
+        dat <- rbind(dat, readPitanjeRow(row))
     }
     dat
 }
@@ -40,59 +36,66 @@ readPitanja <- function(rows) {
 
 readSvaDostupnaPitanja <- function(remDr, saziv) {
     
-    # get Next button
-    btnList <- remDr$findElements(using = "partial link text", value = "> >")
-    if (length(btnList) == 0) 
-        return(NA)
-    else
-        btnNext <- btnList[[1]]
+    pitanja <- data.frame()
     
-    if(exists("pitanja")) rm("pitanja", envir = globalenv())
-    
-    # until the last page is reached and the "Next" button is disabled
-    while (TRUE) {
-        
-        # get table rows containing data (using default table sort) returned as a list of web elements
-        rows_we <- remDr$findElements(using = "class", value = "dxgvDataRow_SaborPurpleTheme")    
-        # get data
-        if(!exists("pitanja")) 
-            pitanja <- readPitanja(rows_we)
-        else
-            pitanja <- rbind(pitanja, readPitanja(rows_we))
-        # click Next page
-        btnNext$clickElement()
-        # wait for reload
-        Sys.sleep(5)
-        # reload Next button status
-        btnList <- remDr$findElements(using = "partial link text", value = "> >")
-        if (length(btnList) == 0) 
-            break
-        else
-            btnNext <- btnList[[1]]
-        
-        # print ("#####################################################")
-        if (btnNext$getElementAttribute("class") == "dxp-button dxp-bt dxp-disabledButton") 
-            break
-    }
-    
+    out <- tryCatch(
+        {
+            # until the last page is reached and the "Next" button is disabled
+            while (TRUE) {
+                # get table rows containing data (using default table sort) returned as a list of web elements
+                rows_we <- remDr$findElements(using = "class", value = "dxgvDataRow_SaborPurpleTheme")
+                # get data
+                pitanja <- rbind(pitanja, readPitanja(rows_we))
+                
+                # log current page
+                current_page <- remDr$findElement(using = 'css', value = '.dxp-current')
+                print(paste('Finished reading page:',current_page$getElementText()))
+                
+                # reload Next button status
+                btnList <- remDr$findElements(using = "partial link text", value = "> >")
+                if (length(btnList) == 0)
+                    break
+                else
+                    btnNext <- btnList[[1]]
+                
+                # click Next page
+                btnNext$clickElement()
+                # wait for reload
+                Sys.sleep(3)
+                
+                # # print ("#####################################################")
+                # if (btnNext$getElementAttribute("class") == "dxp-button dxp-bt dxp-disabledButton")
+                #     break
+            }
+            return(as_data_frame(pitanja)) # convert to tibble
+        },
+        error=function(cond) {
+            message("Here's the original error message:")
+            message(cond)
+            # Choose a return value in case of error
+            return(as_data_frame(pitanja)) # convert to tibble
+        }
+        # finally={
+           
+        # }
+    )
     # oznaci grupna pitanja
-    pitanja$Grupno <- 0 
-    pitanja[grep(";", pitanja$Zastupnik),]$Grupno <- 1 
+    out$Grupno <- 0 
+    out[grep(";", out$Zastupnik),]$Grupno <- 1 
     
     
     # dodaj klub zastupnika
-    pitanja$Klub <- sub("\\).*", "", sub(".*\\(", "", pitanja$Zastupnik)) 
+    out$Klub <- sub("\\).*", "", sub(".*\\(", "", out$Zastupnik)) 
     
     # pretvori datum u datumski tip
-    pitanja$Date <- as.Date(pitanja$Datum, format = "%d.%m.%Y")
-    pitanja$Datum <- NULL
+    out$Date <- as.Date(out$Datum, format = "%d.%m.%Y")
+    out$Datum <- NULL
     
     # set ID
-    pitanja$ID <- as.integer(sub(".*id=", "", pitanja$URL))
+    out$ID <- as.integer(sub(".*id=", "", out$URL))
     
     # pretvori saziv u integer kolonu
-    pitanja$Saziv <- saziv
-    
-    as_data_frame(pitanja) # convert to tibble
+    out$Saziv <- saziv
+    return(out)
 }
 

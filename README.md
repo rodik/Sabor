@@ -3,7 +3,7 @@
 
 Projekt sadržava funkcije potrebne za programski pristup podacima s edoc.sabor portala. Trenutno je moguće pristupati saborskim raspravama i zastupničkim pitanjima.
 
-Saborske rasprave za 7.,8. i 9. saziv dostupne su u CSV formatu u folderu CSV export. Opis datoteka:
+Saborske rasprave za 5.,6.,7.,8. i 9. saziv dostupne su u CSV formatu u folderu _CSV export_. Opis datoteka:
 
 * _rasprave_saziv_N.csv_ = zaglavlja rasprava (kolona **ID** je identifikator rasprave)
 * _transkripti_saziv_N.csv_ = transkripti rasprava (kolona **transcript_id** je veza na zaglavlje)

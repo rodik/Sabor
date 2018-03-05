@@ -13,20 +13,15 @@ home_url <- "http://edoc.sabor.hr/Fonogrami.aspx"
 remDr$navigate(home_url)
 
 # start scraping
-rasprave_8 <- readSveDostupneRasprave(remDr)
-rasprave_8_ostalo <- readSveDostupneRasprave(remDr)
+rasprave_5 <- readSveDostupneRasprave(remDr)
 
-rasprave_7_nastavak <- readSveDostupneRasprave(remDr)
-
-transkripti_8 <- data.frame()
-for (i in 1:nrow(rasprave_8)) {
-    r <- rasprave_8[i,]
-    transkripti_8 <- rbind(transkripti_8, readRaspravaTranskript(remDr, r$URL))
-    print(paste("Parsed", i, "of", nrow(rasprave_8), Sys.time())) 
+# transkripti_5 <- data.frame()
+for (i in 1:nrow(rasprave_5)) {
+    r <- rasprave_5[i,]
+    transkripti_5 <- rbind(transkripti_5, readRaspravaTranskript(remDr, r$URL))
+    print(paste("Parsed", i, "of", nrow(rasprave_5), Sys.time())) 
 }
 
 
-saveRDS(rasprave_8, "RDS files/saziv_8_headeri.rds")
-saveRDS(transkripti_8, "RDS files/saziv_8_transkripti.rds")
-
-transkripti_9 <- readRDS("RDS files/saziv_9_transkripti.rds")
+# saveRDS(r_8, "RDS files/saziv_8_headeri.rds")
+# saveRDS(transkripti_5, "RDS files/saziv_5_transkripti.rds")

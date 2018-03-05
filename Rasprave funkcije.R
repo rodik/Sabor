@@ -80,7 +80,7 @@ readSveDostupneRasprave <- function(remDr) {
                 # click Next page
                 btnNext$clickElement()
                 # wait for reload
-                Sys.sleep(3)
+                Sys.sleep(4)
                 
                 # # print ("#####################################################")
                 # if (btnNext$getElementAttribute("class") == "dxp-button dxp-bt dxp-disabledButton") 
@@ -93,14 +93,15 @@ readSveDostupneRasprave <- function(remDr) {
             message(cond)
             # Choose a return value in case of error
             return(as_data_frame(rasprave)) # convert to tibble
-        },
-        finally={
-            rasprave$ID <- as.integer(substr(rasprave$URL, unlist(gregexpr(pattern = "id=", text = rasprave$URL)) + 3, nchar(rasprave$URL)))
-            rasprave$Sjednica <- as.integer(rasprave$Sjednica)
-            rasprave$RedniBroj <- as.integer(rasprave$RedniBroj)
-            rasprave$ImaSnimku <- ifelse(rasprave$ImaSnimku == TRUE, 1, 0)
         }
+        # finally={
+            
+        # }
     )    
+    out$ID <- as.integer(substr(out$URL, unlist(gregexpr(pattern = "id=", text = out$URL)) + 3, nchar(out$URL)))
+    out$Sjednica <- as.integer(out$Sjednica)
+    out$RedniBroj <- as.integer(out$RedniBroj)
+    out$ImaSnimku <- ifelse(out$ImaSnimku == TRUE, 1, 0)
     return(out)
 }
 
@@ -111,7 +112,7 @@ readRaspravaTranskript <- function(remDr, url) {
     remDr$navigate(url)
     
     # wait for reload
-    Sys.sleep(2)
+    Sys.sleep(3)
     
     # get transcript_id from URL
     ts_id = substr(url, unlist(gregexpr(pattern = "id=", text = url)) + 3, nchar(url))

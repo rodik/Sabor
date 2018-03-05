@@ -36,3 +36,14 @@ za_obradu <- trn %>%
     )
 
 spremiCSV(za_obradu, 'deveti_saziv_transkripti.csv')
+
+za_obradu %>% 
+    filter(
+        grepl("reform", Transkript) #| grepl("komunjar", Transkript) 
+    ) %>% 
+    group_by(Osoba, ZastupnickiKlub) %>% 
+    summarise(broj = n()) %>%
+    arrange(desc(broj)) %>%
+    View() %>%
+    spremiCSV("reforme.csv")
+

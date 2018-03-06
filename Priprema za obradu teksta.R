@@ -5,7 +5,7 @@ spremiCSV <- function(df, fileName, encoding="UTF-8", sep = ';', na ='', row.nam
     con<-file(fileName,encoding=encoding)
     # KORISTITI WRITE TABLE
     write.table(df, file=con, na=na, sep = sep, row.names = row.names )
-    close(con)
+    # close.connection(con)
 }
 
 sve_rasprave #<- readRDS("RDS files/saziv_9_headeri.rds")

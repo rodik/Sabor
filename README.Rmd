@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Projekt sadržava funkcije potrebne za programski pristup podacima s edoc.sabor portala. Trenutno je moguće pristupati saborskim raspravama i zastupničkim pitanjima.
 
-Saborske rasprave za 5.,6.,7.,8. i 9. saziv dostupne su u CSV formatu u folderu _CSV export_. Opis datoteka:
+Saborske rasprave za 5.,6.,7.,8. i 9. saziv dostupne su u CSV formatu u folderu _CSV_. Opis datoteka:
 
 * _rasprave_saziv_N.csv_ = zaglavlja rasprava (kolona **ID** je identifikator rasprave)
 * _transkripti_saziv_N.csv_ = transkripti rasprava (kolona **Rasprava_ID** je veza na zaglavlje)
@@ -22,6 +22,8 @@ Projekt je nastao kao nadogradnja postojećeg scrapera u sklopu [Open Data Day 2
 Izvor podataka: http://edoc.sabor.hr/
 
 Datum pristupanja: 2018-03-04
+
+**Napomena:** Neke se izjave na izvoru podataka pojavljuju više puta pod različitim raspravama. Potrebno je dodatno napraviti deduplikaciju prema govorniku i izjavi.
 
 ## Primjer učitavanja podataka
 

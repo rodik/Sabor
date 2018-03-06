@@ -5,7 +5,7 @@ Saborski transkripti scraper
 
 Projekt sadržava funkcije potrebne za programski pristup podacima s edoc.sabor portala. Trenutno je moguće pristupati saborskim raspravama i zastupničkim pitanjima.
 
-Saborske rasprave za 5.,6.,7.,8. i 9. saziv dostupne su u CSV formatu u folderu *CSV export*. Opis datoteka:
+Saborske rasprave za 5.,6.,7.,8. i 9. saziv dostupne su u CSV formatu u folderu *CSV*. Opis datoteka:
 
 -   *rasprave\_saziv\_N.csv* = zaglavlja rasprava (kolona **ID** je identifikator rasprave)
 -   *transkripti\_saziv\_N.csv* = transkripti rasprava (kolona **Rasprava\_ID** je veza na zaglavlje)
@@ -15,6 +15,8 @@ Projekt je nastao kao nadogradnja postojećeg scrapera u sklopu [Open Data Day 2
 Izvor podataka: <http://edoc.sabor.hr/>
 
 Datum pristupanja: 2018-03-04
+
+**Napomena:** Neke se izjave na izvoru podataka pojavljuju više puta pod različitim raspravama. Potrebno je dodatno napraviti deduplikaciju prema govorniku i izjavi.
 
 Primjer učitavanja podataka
 ---------------------------

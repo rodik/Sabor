@@ -50,6 +50,12 @@ t_7 <- PocistiTranscriptDF(t_7)
 t_8 <- PocistiTranscriptDF(t_8)
 t_9 <- PocistiTranscriptDF(t_9)
 
+# saveRDS(t_5, "RDS files/saziv_5_transkripti.rds")
+# saveRDS(t_6, "RDS files/saziv_6_transkripti.rds")
+# saveRDS(t_7, "RDS files/saziv_7_transkripti.rds")
+# saveRDS(t_8, "RDS files/saziv_8_transkripti.rds")
+# saveRDS(t_9, "RDS files/saziv_9_transkripti.rds")
+
 # spremi kao csv
 spremiCSV(r_5, "CSV/rasprave_saziv_5.csv")
 spremiCSV(r_6, "CSV/rasprave_saziv_6.csv")

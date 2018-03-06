@@ -7,11 +7,11 @@ spremiCSV <- function(df, fileName, encoding="UTF-8", sep = ';', na ='', row.nam
     write.table(df, file=con, na=na, sep = sep, row.names = row.names)
 }
 
-rasprave_9 <- readRDS("RDS files/saziv_9_headeri.rds")
-transkripti_9 <- readRDS("RDS files/saziv_9_transkripti.rds")
+sve_rasprave #<- readRDS("RDS files/saziv_9_headeri.rds")
+svi_transkripti #<- readRDS("RDS files/saziv_9_transkripti.rds")
 
-hdr <- rasprave_9 %>% select(Saziv, Sjednica, Naziv, ID)
-trn <- transkripti_9 %>%
+hdr <- sve_rasprave %>% select(Saziv, Sjednica, Naziv, ID)
+trn <- svi_transkripti %>%
     select(
         Osoba = speaker,
         Transkript = transcript,
@@ -35,7 +35,7 @@ za_obradu <- trn %>%
         Transkript = gsub('…/.+?/…','', Transkript) # makni didaskalije
     )
 
-spremiCSV(za_obradu, 'deveti_saziv_transkripti.csv')
+spremiCSV(za_obradu, 'svi_podaci.csv')
 
 za_obradu %>% 
     filter(

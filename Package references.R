@@ -8,8 +8,8 @@ library(tibble)
 library(dplyr)
 
 # wordcloud
-library(wordcloud)
-library(tm)
+# library(wordcloud)
+# library(tm)
 
 # SQL Server
-library(RODBC)
+# library(RODBC)

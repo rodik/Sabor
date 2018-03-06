@@ -7,6 +7,9 @@ library(RSelenium)
 library(tibble)
 library(dplyr)
 
+# plots
+library(ggplot2)
+
 # wordcloud
 # library(wordcloud)
 # library(tm)

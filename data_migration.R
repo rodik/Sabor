@@ -63,6 +63,7 @@ spremiCSV(t_7, "CSV/transkripti_saziv_7.csv")
 spremiCSV(t_8, "CSV/transkripti_saziv_8.csv")
 spremiCSV(t_9, "CSV/transkripti_saziv_9.csv")
 
+
 # zipaj
 zip(zipfile = 'CSV/saziv_5_csv', 
     files = c('CSV/rasprave_saziv_5.csv','CSV/transkripti_saziv_5.csv'),

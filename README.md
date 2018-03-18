@@ -112,8 +112,8 @@ grupirani_po_klubu %>%
     ggplot(aes(x = reorder(ZastupnickiKlub, BrojIzjava), y = BrojIzjava)) +
         geom_bar(stat = 'identity') +
         coord_flip() +
-        xlab('Broj izjava') +
-        ylab('Zastupnički klub')
+        ylab('Broj izjava') +
+        xlab('Zastupnički klub')
 ```
 
 ![](README_files/figure-markdown_github/plots-1.png)

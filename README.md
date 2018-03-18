@@ -59,13 +59,13 @@ rasprave_8
     ## # A tibble: 172 x 7
     ##    Saziv Sjednica RedniBroj Naziv                URL      ImaSnimku     ID
     ##    <chr>    <int>     <int> <chr>                <chr>        <int>  <int>
-    ##  1 VIII         3        67 "Prijedlog odluke o~ http://~         1 2.01e6
+    ##  1 VIII         3        67 Prijedlog odluke o ~ http://~         1 2.01e6
     ##  2 VIII         3        66 Prijedlog odluke o ~ http://~         1 2.01e6
     ##  3 VIII         3        65 Konaèni prijedlog z~ http://~         1 2.01e6
     ##  4 VIII         3        64 Prijedlog za pokret~ http://~         1 2.01e6
     ##  5 VIII         3        63 Konaèni prijedlog z~ http://~         1 2.01e6
     ##  6 VIII         3        62 Konaèni prijedlog z~ http://~         1 2.01e6
-    ##  7 VIII         3        61 "Prijedlog odluke o~ http://~         1 2.01e6
+    ##  7 VIII         3        61 Prijedlog odluke o ~ http://~         1 2.01e6
     ##  8 VIII         3        60 Izvješæe o radu pra~ http://~         1 2.01e6
     ##  9 VIII         3        59 Izvješæe o radu pra~ http://~         1 2.01e6
     ## 10 VIII         3        58 Izvješæe o poslovan~ http://~         1 2.01e6
@@ -75,20 +75,20 @@ rasprave_8
 transkripti_8
 ```
 
-    ## # A tibble: 12,196 x 5
-    ##    Osoba  Transkript           RedniBrojIzjave Rasprava_ID ZastupnickiKlub
-    ##    <chr>  <chr>                          <int>       <int> <chr>          
-    ##  1 "Rein~ Sada bih vas zamoli~               1     2012625 HDZ            
-    ##  2 "Iviæ~ Hvala lijepo gospod~               2     2012625 HDZ            
-    ##  3 "Rein~ Hvala lijepa. Žele ~               3     2012625 HDZ            
-    ##  4 "Stre~ Poštovani predsjedn~               4     2012625 MOST           
-    ##  5 "Rein~ Hvala vam lijepa. S~               5     2012625 HDZ            
-    ##  6 "Rein~ Sada bismo naravno ~               1     2012624 HDZ            
-    ##  7 "Zgre~ Predsjednièe, toèka~               2     2012624 SDP            
-    ##  8 "Rein~ Dobro, èini mi se d~               3     2012624 HDZ            
-    ##  9 "Petr~ Poštovani predsjedn~               4     2012624 HRID           
-    ## 10 "Rein~ Kolegice i kolege, ~               5     2012624 HDZ            
-    ## # ... with 12,186 more rows
+    ## # A tibble: 12,368 x 7
+    ##    Osoba  Transkript           RedniBrojIzjave Rasprava_ID Datum Je_najava
+    ##    <chr>  <chr>                          <int>       <int> <chr> <lgl>    
+    ##  1 67     Prijedlog odluke o ~               1     2012625 2016~ T        
+    ##  2 "Rein~ Sada bih vas zamoli~               2     2012625 2016~ F        
+    ##  3 "Iviæ~ Hvala lijepo gospod~               3     2012625 2016~ F        
+    ##  4 "Rein~ Hvala lijepa. Žele ~               4     2012625 2016~ F        
+    ##  5 "Stre~ Poštovani predsjedn~               5     2012625 2016~ F        
+    ##  6 "Rein~ Hvala vam lijepa. S~               6     2012625 2016~ F        
+    ##  7 66     Prijedlog odluke o ~               1     2012624 2016~ T        
+    ##  8 "Rein~ Sada bismo naravno ~               2     2012624 2016~ F        
+    ##  9 "Zgre~ Predsjednièe, toèka~               3     2012624 2016~ F        
+    ## 10 "Rein~ Dobro, èini mi se d~               4     2012624 2016~ F        
+    ## # ... with 12,358 more rows, and 1 more variable: ZastupnickiKlub <chr>
 
 Primjer obrade i vizualizacije podataka
 ---------------------------------------

@@ -86,5 +86,5 @@ spremiCSV(svi_transkripti, "Export/svi_transkripti.csv")
 
 # TODO maknuti dvostruke navodnike iz CSV-a
 
-
+ 
 

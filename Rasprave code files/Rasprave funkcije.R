@@ -50,20 +50,8 @@ readRasprave <- function(rows) {
 
 # rm(dat)
 
-<<<<<<< HEAD
 # cita sve headere rasprava od ZADNJE do prve dostupne stranice
 readSveDostupneRasprave <- function(remDr, zadnja_procitana_rasprava_id = 0) {
-=======
-# cita sve headere rasprava od prve do zadnje dostupne stranice
-readSveDostupneRasprave <- function(remDr, zadnja_procitana_rasprava_id = 0) {
-    
-    # # get Next button
-    # btnList <- remDr$findElements(using = "partial link text", value = "> >")
-    # if (length(btnList) == 0) 
-    #     return(NA)
-    # else
-    #     btnNext <- btnList[[1]]
->>>>>>> 1b9b0f75e0b94189fc7d4acc1af4a2df895d56dd
     
     rasprave <- data.frame()
     current_page_num <- 0
@@ -83,7 +71,6 @@ readSveDostupneRasprave <- function(remDr, zadnja_procitana_rasprava_id = 0) {
                 current_page_num <- current_page$getElementAttribute('value')
                 print(paste('Finished reading page:', current_page_num))
                 
-<<<<<<< HEAD
                 # get Previous button
                 btnPrev <- remDr$findElement(using = 'css', value = '#ctl00_ContentPlaceHolder_gvFonogrami_PagerBarB_PrevButton_CD')
                 
@@ -102,30 +89,6 @@ readSveDostupneRasprave <- function(remDr, zadnja_procitana_rasprava_id = 0) {
                 #     # izadi iz iteriranja po stranicama
                 #     break
                 # }
-=======
-                # reload Next button status
-                btnList <- remDr$findElements(using = "partial link text", value = "> >")
-                if (length(btnList) == 0) {
-                    break
-                }
-                else
-                    btnNext <- btnList[[1]]
->>>>>>> 1b9b0f75e0b94189fc7d4acc1af4a2df895d56dd
-                
-                # stani ako si dosao do zadnjeg procitanog
-                if (min(rasprave$ID) <= zadnja_procitana_rasprava_id) {
-                    print(
-                        paste0(
-                            "Zaustavljam se, dosao sam do zadnje procitane: ",
-                            zadnja_procitana_rasprava_id
-                        )
-                    )
-                    # pobrisi sve vece
-                    rasprave <- rasprave %>%
-                        filter(ID > zadnja_procitana_rasprava_id)
-                    # izadi iz iteriranja po stranicama
-                    break
-                }
                 
                 # click Next page
                 btnPrev$clickElement()
@@ -164,12 +127,8 @@ readRaspravaTranskript <- function(remDr, url) {
     
     # get all text containers
     # text_rows <- remDr$findElements(using = "css selector", value = ".singleContentContainer+ .singleContentContainer")
-<<<<<<< HEAD
     text_rows <- remDr$findElements(using = "css selector", 
         value = "#ctl00_ContentPlaceHolder_rptMain_ctl00_divTileShape0 , .singleContentContainer+ .singleContentContainer")
-=======
-    text_rows <- remDr$findElements(using = "css selector", value = "#ctl00_ContentPlaceHolder_rptMain_ctl00_divTileShape0 , .singleContentContainer+ .singleContentContainer")
->>>>>>> 1b9b0f75e0b94189fc7d4acc1af4a2df895d56dd
     
     transcript_rows <- data.frame()
     
@@ -275,7 +234,7 @@ readRaspravaTranskript_fix <- function(remDr, url) {
     # return
     transcript_rows
 }
-
+ 
 PoveziDatume <- function(ts){
     # napravi kopiju citavog transkripta
     ts_novi <- ts

@@ -21,7 +21,7 @@ razlika <- tst_9 %>% anti_join(r_9, by="ID")
 # razlika$Sjednica <- as.integer(razlika$Sjednica)
 # razlika$RedniBroj <- as.integer(razlika$RedniBroj)
 # razlika$ImaSnimku <- ifelse(razlika$ImaSnimku == TRUE, 1, 0)
-
+ 
 transkripti_9_ost <- data.frame()
 
 for (i in 1:nrow(razlika)) {

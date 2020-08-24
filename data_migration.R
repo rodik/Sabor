@@ -1,34 +1,14 @@
-# TODO
-# urediti datasetove
+r_5 <- sve_rasprave %>% filter(Saziv == 'V')
+r_6 <- sve_rasprave %>% filter(Saziv == 'VI')
+r_7 <- sve_rasprave %>% filter(Saziv == 'VII')
+r_8 <- sve_rasprave %>% filter(Saziv == 'VIII')
+r_9 <- sve_rasprave %>% filter(Saziv == 'IX')
 
-PocistiTranscriptDF <- function(transkripti) {
-    
-    # ukloni dvostruki navodnik iz transkripta jer stvara
-    ## probleme prilikom citanja CSV-a
-    transkripti$transcript <- gsub(pattern = '"', 
-                                   replacement = "'", 
-                                   transkripti$transcript, 
-                                   fixed = TRUE)
-    
-    # rename kolona, izdvoji zastupnicki klub
-    transkripti %>%
-        select(
-            Osoba = speaker,
-            Transkript = transcript,
-            RedniBrojIzjave = statement_id,
-            Rasprava_ID = transcript_id
-        ) %>%
-        mutate(ZastupnickiKlub = regmatches(Osoba, gregexpr("\\(.+?\\)", Osoba))) %>% # klub
-        mutate(ZastupnickiKlub = gsub('[()]', '', ZastupnickiKlub)) %>% # mkni zagrade
-        mutate(ZastupnickiKlub = if_else( # govornik bez kluba mora imati NA
-            ZastupnickiKlub == 'character0',
-            as.character(NA),
-            ZastupnickiKlub
-        )) %>%
-        mutate(Rasprava_ID = as.integer(Rasprava_ID)) %>% # pretvori ID rasprave u int
-        mutate(Osoba = gsub("\\(.+?\\)","",Osoba))
-}
-
+t_5 <- svi_transkripti %>% semi_join(r_5, by=c("Rasprava_ID"="ID"))
+t_6 <- svi_transkripti %>% semi_join(r_6, by=c("Rasprava_ID"="ID"))
+t_7 <- svi_transkripti %>% semi_join(r_7, by=c("Rasprava_ID"="ID"))
+t_8 <- svi_transkripti %>% semi_join(r_8, by=c("Rasprava_ID"="ID"))
+t_9 <- svi_transkripti %>% semi_join(r_9, by=c("Rasprava_ID"="ID"))
 
 # load RDS
 r_5 <- readRDS("RDS files/saziv_5_headeri.rds")
@@ -44,17 +24,24 @@ t_8 <- readRDS("RDS files/saziv_8_transkripti.rds")
 t_9 <- readRDS("RDS files/saziv_9_transkripti.rds")
 
 # pocisti transkripte
-t_5 <- PocistiTranscriptDF(t_5)
-t_6 <- PocistiTranscriptDF(t_6)
-t_7 <- PocistiTranscriptDF(t_7)
-t_8 <- PocistiTranscriptDF(t_8)
-t_9 <- PocistiTranscriptDF(t_9)
+# t_5 <- PocistiTranscriptDF(t_5)
+# t_6 <- PocistiTranscriptDF(t_6)
+# t_7 <- PocistiTranscriptDF(t_7)
+# t_8 <- PocistiTranscriptDF(t_8)
+# t_9 <- PocistiTranscriptDF(t_9)
 
-# saveRDS(t_5, "RDS files/saziv_5_transkripti.rds")
-# saveRDS(t_6, "RDS files/saziv_6_transkripti.rds")
-# saveRDS(t_7, "RDS files/saziv_7_transkripti.rds")
-# saveRDS(t_8, "RDS files/saziv_8_transkripti.rds")
-# saveRDS(t_9, "RDS files/saziv_9_transkripti.rds")
+# SPREMI RDS
+saveRDS(t_5, "RDS files/saziv_5_transkripti.rds")
+saveRDS(t_6, "RDS files/saziv_6_transkripti.rds")
+saveRDS(t_7, "RDS files/saziv_7_transkripti.rds")
+saveRDS(t_8, "RDS files/saziv_8_transkripti.rds")
+saveRDS(t_9, "RDS files/saziv_9_transkripti.rds")
+
+saveRDS(r_5, "RDS files/saziv_5_headeri.rds")
+saveRDS(r_6, "RDS files/saziv_6_headeri.rds")
+saveRDS(r_7, "RDS files/saziv_7_headeri.rds")
+saveRDS(r_8, "RDS files/saziv_8_headeri.rds")
+saveRDS(r_9, "RDS files/saziv_9_headeri.rds")
 
 # spremi kao csv
 spremiCSV(r_5, "CSV/rasprave_saziv_5.csv")
@@ -91,6 +78,13 @@ zip(zipfile = 'CSV/saziv_9_csv',
 sve_rasprave <- rbind(r_5,r_6,r_7,r_8,r_9)
 svi_transkripti <- rbind(t_5,t_6,t_7,t_8,t_9)
 
+spremiCSV(sve_rasprave, "Export/sve_rasprave.csv")
+spremiCSV(svi_transkripti, "Export/svi_transkripti.csv")
+
+# broj rijeci = 71.235.660
+# chars = 443.390.085
+
+# TODO maknuti dvostruke navodnike iz CSV-a
 
 
 

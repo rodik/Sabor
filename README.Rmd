@@ -5,6 +5,7 @@ output: github_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format = "html") 
 ```
 
 [RSelenium](https://github.com/ropensci/RSelenium) scraper za rasprave i zastupnička pitanja
@@ -27,19 +28,21 @@ Datum pristupanja: 2018-03-04
 
 ## Primjer učitavanja podataka
 
-```{r getdata, echo=TRUE, message=FALSE, cache=TRUE, cache.vars=c('rasprave_8','transkripti_8'), cache.lazy=TRUE}
+```{r getdata, echo=TRUE, message=FALSE, cache=TRUE, cache.vars=c('rasprave_8','transkripti_8')}
 # load libs
 library(tibble)
 library(ggplot2)
 library(dplyr)
 library(ggthemr) # stiliziranje plotova, nije nuzno
-library(magrittr)
+library(magrittr) 
 
 # definiraj gdje su zipani podaci
 url <- "https://github.com/rodik/Sabor/raw/master/CSV/saziv_8_csv.zip"
 
 # download zip file containing transcript data, save it to the working directory
-download.file(url = url, destfile="saziv_8.zip") 
+if (!file.exists("saziv_8.zip")) {
+    download.file(url = url, destfile="saziv_8.zip") 
+}
 
 # procitaj zaglavlja rasprava
 rasprave_8 <- read.table(unz("saziv_8.zip", "rasprave_saziv_8.csv"), 
@@ -84,8 +87,8 @@ grupirani_po_klubu %>%
     ggplot(aes(x = reorder(ZastupnickiKlub, BrojIzjava), y = BrojIzjava)) +
         geom_bar(stat = 'identity') +
         coord_flip() +
-        xlab('Broj izjava') +
-        ylab('Zastupnički klub')
+        ylab('Broj izjava') +
+        xlab('Zastupnički klub')
 
 ```
 
